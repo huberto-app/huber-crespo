@@ -246,6 +246,7 @@ onAuthStateChanged(auth, async (user) => {
       userNameSpan.textContent = userData.nombre;
       userRoleSpan.textContent = userData.rol;
 
+      // Ocultar tarjetas de autenticación y mostrar panel principal
       authSection.classList.add("hidden");
       userPanel.classList.remove("hidden");
 
@@ -260,10 +261,16 @@ onAuthStateChanged(auth, async (user) => {
       }
     }
   } else {
+    // Si NO hay sesión iniciada (o el usuario cerró sesión):
     currentUser = null;
     currentRole = null;
+    
     authSection.classList.remove("hidden");
     userPanel.classList.add("hidden");
+
+    // AQUÍ: Nos aseguramos de volver al Login por defecto
+    loginCard.classList.remove("hidden");
+    registerCard.classList.add("hidden");
   }
 });
 
