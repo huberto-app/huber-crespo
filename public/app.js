@@ -81,7 +81,7 @@ showLoginLink.addEventListener("click", (e) => {
   loginCard.classList.remove("hidden");
 });
 
-// REGISTRO CON CONFIRMACIÓN DE CONTRASEÑA
+// REGISTRO CON TELÉFONO OPCIONAL Y VALIDACIÓN REGEX
 registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   
@@ -90,6 +90,7 @@ registerForm.addEventListener("submit", async (e) => {
 
   const nombre = document.getElementById("reg-nombre").value.trim();
   const email = document.getElementById("reg-email").value.trim();
+  const telefono = document.getElementById("reg-telefono").value.trim();
   const password = document.getElementById("reg-password").value.trim();
   const confirmPassword = document.getElementById("reg-confirm-password").value.trim();
   const rol = document.getElementById("reg-rol").value;
@@ -111,7 +112,19 @@ registerForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  // 3. Validar contraseñas
+  // 3. Validar teléfono (SOLO SI SE INGRESÓ ALGO)
+  if (telefono !== "") {
+    // Elimina espacios, guiones y paréntesis para verificar los dígitos reales
+    const telefonoLimpio = telefono.replace(/[\s\-\(\)]/g, "");
+    const regexTelefono = /^\+?[0-9]{7,15}$/;
+
+    if (!regexTelefono.test(telefonoLimpio)) {
+      mostrarErrorRegistro("El teléfono ingresado no tiene un formato válido.");
+      return;
+    }
+  }
+
+  // 4. Validar contraseñas
   if (!password) {
     mostrarErrorRegistro("Ingresa una contraseña.");
     return;
@@ -129,13 +142,13 @@ registerForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  // 4. Validar rol
+  // 5. Validar rol
   if (!rol) {
     mostrarErrorRegistro("Selecciona un tipo de cuenta (Pasajero o Conductor).");
     return;
   }
 
-  // 5. Registro en Firebase
+  // 6. Registro en Firebase
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
@@ -144,6 +157,7 @@ registerForm.addEventListener("submit", async (e) => {
       uid: user.uid,
       nombre: nombre,
       email: email,
+      telefono: telefono || "Sin especificar",
       rol: rol
     });
 
@@ -187,7 +201,7 @@ loginForm.addEventListener("submit", async (e) => {
   const email = document.getElementById("login-email").value.trim();
   const password = document.getElementById("login-password").value.trim();
 
-  // 1. Validar campos vacíos
+  // Validar campos vacíos
   if (!email && !password) {
     mostrarErrorLogin("Por favor, ingresa tu correo y contraseña.");
     return;
@@ -201,7 +215,19 @@ loginForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  // 2. Validar formato de email básico
+  // Validar teléfono (SOLO SI SE INGRESÓ ALGO)
+  if (telefono !== "") {
+    // Elimina espacios, guiones y paréntesis para verificar los dígitos reales
+    const telefonoLimpio = telefono.replace(/[\s\-\(\)]/g, "");
+    const regexTelefono = /^\+?[0-9]{7,15}$/;
+
+    if (!regexTelefono.test(telefonoLimpio)) {
+      mostrarErrorRegistro("El teléfono ingresado no tiene un formato válido.");
+      return;
+    }
+  }
+
+  // Validar formato de email básico
   const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!regexEmail.test(email)) {
     mostrarErrorLogin("El formato del correo electrónico no es válido.");
