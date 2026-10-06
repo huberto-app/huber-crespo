@@ -222,3 +222,39 @@ hr {
 .hidden {
   display: none !important;
 }
+
+/* MENSAJE DE ERROR ESTILO HUD / ALERTA DE SISTEMA */
+.error-msg {
+  background: rgba(13, 14, 21, 0.95);
+  border: 1px solid var(--pink-neon);
+  border-left: 4px solid var(--pink-neon);
+  color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 20px rgba(255, 0, 85, 0.25),
+              inset 0 0 10px rgba(255, 0, 85, 0.1);
+  animation: shakeError 0.35s ease-in-out;
+}
+
+.error-msg::before {
+  content: '⚠';
+  font-size: 1.1rem;
+  color: var(--pink-neon);
+  text-shadow: 0 0 8px var(--pink-neon);
+}
+
+/* EFECTO DE SACUDIDA AL APARECER */
+@keyframes shakeError {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+}

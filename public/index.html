@@ -14,28 +14,33 @@
     <!-- AUTENTICACIÓN -->
     <div id="auth-section">
       <div class="card">
+        <h2>Iniciar Sesión</h2>
+        <form id="login-form" novalidate>
+          <input type="email" id="login-email" placeholder="Correo electrónico">
+          <input type="password" id="login-password" placeholder="Contraseña">
+          <div id="login-error" class="error-msg hidden"></div>
+          <button type="submit">Ingresar</button>
+        </form>
+      </div>
+      
+      <!-- FORMULARIO DE REGISTRO -->
+      <div class="card">
         <h2>Crear Cuenta</h2>
-        <form id="register-form">
-          <input type="text" id="reg-nombre" placeholder="Nombre completo" required>
-          <input type="email" id="reg-email" placeholder="Correo electrónico" required>
-          <input type="password" id="reg-password" placeholder="Contraseña (min. 6 caracteres)" required>
-          
+        <form id="register-form" novalidate>
+          <input type="text" id="reg-nombre" placeholder="Nombre completo">
+          <input type="email" id="reg-email" placeholder="Correo electrónico">
+          <input type="password" id="reg-password" placeholder="Contraseña (min. 6 caracteres)">
+    
           <label for="reg-rol">Tipo de cuenta:</label>
-          <select id="reg-rol" required>
+          <select id="reg-rol">
+            <option value="">Selecciona un rol</option>
             <option value="pasajero">Pasajero</option>
             <option value="conductor">Conductor</option>
           </select>
 
-          <button type="submit">Registrarse</button>
-        </form>
-      </div>
+          <div id="register-error" class="error-msg hidden"></div>
 
-      <div class="card">
-        <h2>Iniciar Sesión</h2>
-        <form id="login-form">
-          <input type="email" id="login-email" placeholder="Correo electrónico" required>
-          <input type="password" id="login-password" placeholder="Contraseña" required>
-          <button type="submit">Ingresar</button>
+          <button type="submit">Registrarse</button>
         </form>
       </div>
     </div>
