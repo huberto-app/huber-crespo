@@ -14,7 +14,7 @@
 <!-- AUTENTICACIÓN -->
 <div id="auth-section">
 
-  <!-- TARJETA DE LOGIN (VISIBLE POR DEFECTO) -->
+  <!-- TARJETA DE LOGIN -->
   <div id="login-card" class="card">
     <h2>Iniciar Sesión</h2>
     <form id="login-form" novalidate>
@@ -27,17 +27,41 @@
     </form>
 
     <div class="auth-switch">
+      ¿Olvidaste tu contraseña? <a href="#" id="show-reset">Recuperar</a>
+    </div>
+    <div class="auth-switch" style="margin-top: 8px;">
       ¿No tienes una cuenta? <a href="#" id="show-register">Crear Cuenta</a>
     </div>
   </div>
 
-  <!-- TARJETA DE REGISTRO (OCULTA INICIALMENTE) -->
+  <!-- TARJETA DE RECUPERAR CONTRASEÑA -->
+  <div id="reset-card" class="card hidden">
+    <h2>Recuperar Contraseña</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 0.95rem;">
+      Ingresa tu correo y te enviaremos un enlace para restablecer tu cuenta.
+    </p>
+    <form id="reset-form" novalidate>
+      <input type="email" id="reset-email" placeholder="Correo electrónico">
+      
+      <div id="reset-error" class="error-msg hidden"></div>
+      <div id="reset-success" class="success-msg hidden"></div>
+
+      <button type="submit">Enviar Enlace</button>
+    </form>
+
+    <div class="auth-switch">
+      <a href="#" id="show-login-from-reset">Volver a Iniciar Sesión</a>
+    </div>
+  </div>
+
+  <!-- TARJETA DE REGISTRO -->
   <div id="register-card" class="card hidden">
     <h2>Crear Cuenta</h2>
     <form id="register-form" novalidate>
       <input type="text" id="reg-nombre" placeholder="Nombre completo">
       <input type="email" id="reg-email" placeholder="Correo electrónico">
       <input type="password" id="reg-password" placeholder="Contraseña (min. 6 caracteres)">
+      <input type="password" id="reg-confirm-password" placeholder="Repetir contraseña">
       
       <label for="reg-rol">Tipo de cuenta:</label>
       <select id="reg-rol">
@@ -57,7 +81,6 @@
   </div>
 
 </div>
-
     <!-- PANEL PRINCIPAL -->
     <div id="user-panel" class="card hidden">
       <h2>Bienvenido, <span id="user-name"></span></h2>

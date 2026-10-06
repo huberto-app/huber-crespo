@@ -3,6 +3,7 @@ import {
   getAuth, 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
+  sendPasswordResetEmail, 
   signOut, 
   onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -26,7 +27,6 @@ const firebaseConfig = {
   measurementId: "G-QDCKQ1HG3H",
   databaseURL: "https://huber-crespo-default-rtdb.firebaseio.com"
 };
-
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -55,6 +55,14 @@ const registerCard = document.getElementById("register-card");
 const showRegisterLink = document.getElementById("show-register");
 const showLoginLink = document.getElementById("show-login");
 
+const resetCard = document.getElementById("reset-card");
+const resetForm = document.getElementById("reset-form");
+const resetEmailInput = document.getElementById("reset-email");
+const resetError = document.getElementById("reset-error");
+const resetSuccess = document.getElementById("reset-success");
+const showResetLink = document.getElementById("show-reset");
+const showLoginFromResetLink = document.getElementById("show-login-from-reset");
+
 let currentUser = null;
 let currentRole = null;
 
@@ -73,20 +81,20 @@ showLoginLink.addEventListener("click", (e) => {
   loginCard.classList.remove("hidden");
 });
 
-// REGISTRO
+// REGISTRO CON CONFIRMACIÓN DE CONTRASEÑA
 registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   
-  // Limpiar mensaje de error previo
   registerError.classList.add("hidden");
   registerError.textContent = "";
 
   const nombre = document.getElementById("reg-nombre").value.trim();
   const email = document.getElementById("reg-email").value.trim();
   const password = document.getElementById("reg-password").value.trim();
+  const confirmPassword = document.getElementById("reg-confirm-password").value.trim();
   const rol = document.getElementById("reg-rol").value;
 
-  // 1. Validar campos requeridos
+  // 1. Validar campos obligatorios
   if (!nombre) {
     mostrarErrorRegistro("Ingresa tu nombre completo.");
     return;
@@ -103,7 +111,7 @@ registerForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  // 3. Validar longitud de contraseña
+  // 3. Validar contraseñas
   if (!password) {
     mostrarErrorRegistro("Ingresa una contraseña.");
     return;
@@ -112,19 +120,26 @@ registerForm.addEventListener("submit", async (e) => {
     mostrarErrorRegistro("La contraseña debe tener al menos 6 caracteres.");
     return;
   }
+  if (!confirmPassword) {
+    mostrarErrorRegistro("Por favor, repite la contraseña.");
+    return;
+  }
+  if (password !== confirmPassword) {
+    mostrarErrorRegistro("Las contraseñas no coinciden.");
+    return;
+  }
 
-  // 4. Validar selección de rol
+  // 4. Validar rol
   if (!rol) {
     mostrarErrorRegistro("Selecciona un tipo de cuenta (Pasajero o Conductor).");
     return;
   }
 
-  // 5. Intento de registro en Firebase
+  // 5. Registro en Firebase
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Guardar usuario en Realtime Database
     await set(ref(db, `users/${user.uid}`), {
       uid: user.uid,
       nombre: nombre,
@@ -230,6 +245,72 @@ function mostrarErrorLogin(texto) {
   loginError.classList.remove("hidden");
 }
 
+// RECUPERACION DE CONTRASEÑA
+// Conmutación de pantallas
+showResetLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  loginError.classList.add("hidden");
+  loginCard.classList.add("hidden");
+  resetCard.classList.remove("hidden");
+  resetError.classList.add("hidden");
+  resetSuccess.classList.add("hidden");
+});
+
+showLoginFromResetLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  resetCard.classList.add("hidden");
+  loginCard.classList.remove("hidden");
+});
+
+// Envío de correo de recuperación
+resetForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  resetError.classList.add("hidden");
+  resetSuccess.classList.add("hidden");
+
+  const email = resetEmailInput.value.trim();
+
+  if (!email) {
+    mostrarErrorReset("Ingresa tu correo electrónico.");
+    return;
+  }
+
+  const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!regexEmail.test(email)) {
+    mostrarErrorReset("El formato del correo electrónico no es válido.");
+    return;
+  }
+
+  try {
+    await sendPasswordResetEmail(auth, email);
+    resetSuccess.textContent = "¡Correo enviado! Revisa tu bandeja de entrada o spam.";
+    resetSuccess.classList.remove("hidden");
+    resetForm.reset();
+  } catch (error) {
+    let mensaje = "Ocurrió un error al intentar enviar el correo.";
+
+    switch (error.code) {
+      case "auth/user-not-found":
+        mensaje = "No existe ninguna cuenta registrada con este correo.";
+        break;
+      case "auth/invalid-email":
+        mensaje = "El correo electrónico no es válido.";
+        break;
+      case "auth/network-request-failed":
+        mensaje = "Error de conexión a internet.";
+        break;
+    }
+
+    mostrarErrorReset(mensaje);
+  }
+});
+
+function mostrarErrorReset(texto) {
+  resetError.textContent = texto;
+  resetError.classList.remove("hidden");
+}
+
 // LOGOUT
 logoutBtn.addEventListener("click", () => signOut(auth));
 
@@ -271,6 +352,7 @@ onAuthStateChanged(auth, async (user) => {
     // AQUÍ: Nos aseguramos de volver al Login por defecto
     loginCard.classList.remove("hidden");
     registerCard.classList.add("hidden");
+    resetCard.classList.add("hidden");
   }
 });
 
