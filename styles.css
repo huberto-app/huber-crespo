@@ -1,0 +1,241 @@
+:root {
+  --bg-deep: #080914;
+  --card-bg: rgba(20, 24, 45, 0.75);
+  --input-bg: rgba(12, 15, 30, 0.85);
+  
+  --neon-cyan: #00f3ff;
+  --neon-magenta: #ff007f;
+  --neon-purple: #8a2be2;
+  --neon-green: #00ff88;
+  --neon-red: #ff3366;
+  
+  --text-main: #ffffff;
+  --text-sub: #a0aec0;
+  
+  --glow-cyan: 0 0 15px rgba(0, 243, 255, 0.4);
+  --glow-magenta: 0 0 15px rgba(ff, 0, 127, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+  background-color: var(--bg-deep);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(0, 243, 255, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(255, 0, 127, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.08) 0%, transparent 60%);
+  background-attachment: fixed;
+}
+
+.container {
+  width: 100%;
+  max-width: 460px;
+  perspective: 1000px;
+}
+
+/* TÍTULO PRINCIPAL CON EFECTO NEÓN GLITCH */
+h1 {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 900;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+  position: relative;
+}
+
+/* TARJETAS GLASSMORPHISM CON BORDE REACTIVO */
+.card {
+  background: var(--card-bg);
+  padding: 30px 25px;
+  margin-bottom: 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6),
+              inset 0 0 15px rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover {
+  border-color: rgba(0, 243, 255, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), var(--glow-cyan);
+  transform: translateY(-4px);
+}
+
+h2 {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  color: var(--text-main);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+h3 {
+  font-size: 1.15rem;
+  margin: 15px 0 12px 0;
+  color: var(--neon-cyan);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+label {
+  font-size: 0.85rem;
+  color: var(--text-sub);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-bottom: -8px;
+}
+
+/* INPUTS Y SELECTS CON FOCO NEÓN */
+input, select {
+  width: 100%;
+  padding: 14px 18px;
+  background-color: var(--input-bg);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+input:focus, select:focus {
+  border-color: var(--neon-cyan);
+  background-color: rgba(0, 243, 255, 0.05);
+  box-shadow: var(--glow-cyan);
+}
+
+select option {
+  background-color: #0d111a;
+  color: var(--text-main);
+}
+
+/* BOTONES CON GRADIENTE Y BRILLO REVERBERANTE */
+button {
+  width: 100%;
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: 800;
+  border: none;
+  border-radius: 12px;
+  color: #000;
+  background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-purple) 100%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(0, 243, 255, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 8px;
+}
+
+button:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 8px 25px rgba(0, 243, 255, 0.5), 0 0 15px var(--neon-magenta);
+  background: linear-gradient(135deg, var(--neon-cyan) 20%, var(--neon-magenta) 100%);
+  color: #fff;
+}
+
+button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+#logout-btn {
+  background: linear-gradient(135deg, var(--neon-red), #990033);
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
+}
+
+#logout-btn:hover {
+  box-shadow: 0 8px 25px rgba(255, 51, 102, 0.6);
+  background: linear-gradient(135deg, #ff0044, var(--neon-red));
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  margin: 25px 0;
+}
+
+/* ESTADO DE VIAJES / TARJETAS DINÁMICAS */
+.status-box {
+  margin-top: 18px;
+  padding: 16px;
+  background: rgba(0, 255, 136, 0.05);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  box-shadow: inset 0 0 10px rgba(0, 255, 136, 0.1);
+  animation: pulseGlow 3s infinite alternate;
+}
+
+.trip-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(0, 243, 255, 0.2);
+  padding: 18px;
+  margin-top: 15px;
+  border-radius: 14px;
+  transition: all 0.3s ease;
+}
+
+.trip-item:hover {
+  border-color: var(--neon-cyan);
+  background: rgba(0, 243, 255, 0.08);
+  box-shadow: var(--glow-cyan);
+}
+
+.trip-item p {
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  color: var(--text-sub);
+}
+
+.trip-item p strong {
+  color: var(--text-main);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ANIMACIÓN DE PULSO DE LUZ */
+@keyframes pulseGlow {
+  0% {
+    border-color: rgba(0, 255, 136, 0.3);
+    box-shadow: 0 0 5px rgba(0, 255, 136, 0.2);
+  }
+  100% {
+    border-color: rgba(0, 255, 136, 0.7);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+  }
+}

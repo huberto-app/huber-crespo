@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App de Transporte - Realtime DB</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Huber CRESPO</h1>
+
+    <!-- AUTENTICACIÓN -->
+    <div id="auth-section">
+      <div class="card">
+        <h2>Crear Cuenta</h2>
+        <form id="register-form">
+          <input type="text" id="reg-nombre" placeholder="Nombre completo" required>
+          <input type="email" id="reg-email" placeholder="Correo electrónico" required>
+          <input type="password" id="reg-password" placeholder="Contraseña (min. 6 caracteres)" required>
+          
+          <label for="reg-rol">Tipo de cuenta:</label>
+          <select id="reg-rol" required>
+            <option value="pasajero">Pasajero</option>
+            <option value="conductor">Conductor</option>
+          </select>
+
+          <button type="submit">Registrarse</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Iniciar Sesión</h2>
+        <form id="login-form">
+          <input type="email" id="login-email" placeholder="Correo electrónico" required>
+          <input type="password" id="login-password" placeholder="Contraseña" required>
+          <button type="submit">Ingresar</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- PANEL PRINCIPAL -->
+    <div id="user-panel" class="card hidden">
+      <h2>Bienvenido, <span id="user-name"></span></h2>
+      <p><strong>Rol:</strong> <span id="user-role"></span></p>
+      <button id="logout-btn">Cerrar Sesión</button>
+      <hr>
+
+      <!-- VISTA PASAJERO -->
+      <div id="panel-pasajero" class="hidden">
+        <h3>Solicitar un Viaje</h3>
+        <form id="trip-form">
+          <input type="text" id="trip-origin" placeholder="Dirección de Origen" required>
+          <input type="text" id="trip-destination" placeholder="Dirección de Destino" required>
+          <button type="submit">Pedir Viaje</button>
+        </form>
+        <div id="pasajero-status" class="status-box"></div>
+      </div>
+
+      <!-- VISTA CONDUCTOR -->
+      <div id="panel-conductor" class="hidden">
+        <h3>Viajes Disponibles</h3>
+        <div id="trips-list">No hay viajes solicitados por ahora.</div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

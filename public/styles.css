@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Syne:wght@700;800&display=swap');
+
+:root {
+  --bg-dark: #050508;
+  --card-bg: #0d0e15;
+  --input-bg: #141622;
+  
+  --yellow-vibrant: #ffe600;
+  --purple-electric: #7000ff;
+  --pink-neon: #ff0055;
+  --cyan-bright: #00f0ff;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #8b8e9f;
+  
+  --border-glow: rgba(255, 230, 0, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 50% 0%, rgba(112, 0, 255, 0.25) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(255, 0, 85, 0.15) 0%, transparent 50%);
+  background-size: 30px 30px, 30px 30px, 100% 100%, 100% 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: 450px;
+}
+
+/* TÍTULO IMPACTANTE CON TIPOGRAFÍA SYNE */
+h1 {
+  font-family: 'Syne', sans-serif;
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+  letter-spacing: -1px;
+  line-height: 1;
+  background: linear-gradient(90deg, var(--yellow-vibrant), var(--cyan-bright));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(255, 230, 0, 0.3);
+  text-transform: uppercase;
+}
+
+/* TARJETA INDUSTRIAL OSCURA */
+.card {
+  background: var(--card-bg);
+  padding: 28px 24px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8),
+              0 0 0 1px rgba(112, 0, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--yellow-vibrant), var(--purple-electric), var(--pink-neon));
+}
+
+h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+  letter-spacing: 0px;
+}
+
+h3 {
+  font-size: 1.2rem;
+  margin: 15px 0 10px 0;
+  color: var(--yellow-vibrant);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: -6px;
+}
+
+/* INPUTS CON ACENTO AMARILLO/NEÓN */
+input, select {
+  width: 100%;
+  padding: 14px 16px;
+  background-color: var(--input-bg);
+  border: 2px solid #1a1d2e;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+input::placeholder {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+input:focus, select:focus {
+  border-color: var(--yellow-vibrant);
+  box-shadow: 0 0 15px rgba(255, 230, 0, 0.2);
+  background-color: #181b2a;
+}
+
+select option {
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+}
+
+/* BOTÓN AMARILLO NEÓN CON ALTO CONTRASTE */
+button {
+  width: 100%;
+  padding: 16px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  background: var(--yellow-vibrant);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  box-shadow: 0 6px 20px rgba(255, 230, 0, 0.25);
+  margin-top: 8px;
+}
+
+button:hover {
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+#logout-btn {
+  background: var(--pink-neon);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(255, 0, 85, 0.3);
+}
+
+#logout-btn:hover {
+  background: #ff2277;
+  box-shadow: 0 8px 30px rgba(255, 0, 85, 0.5);
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 22px 0;
+}
+
+.status-box {
+  margin-top: 15px;
+  padding: 16px;
+  background: rgba(112, 0, 255, 0.15);
+  border-left: 4px solid var(--purple-electric);
+  border-radius: 6px;
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.trip-item {
+  background: #121420;
+  border: 1px solid rgba(255, 230, 0, 0.2);
+  padding: 16px;
+  margin-top: 12px;
+  border-radius: 8px;
+}
+
+.trip-item p {
+  font-size: 1rem;
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+}
+
+.trip-item p strong {
+  color: var(--yellow-vibrant);
+}
+
+.hidden {
+  display: none !important;
+}
