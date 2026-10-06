@@ -50,9 +50,28 @@ const tripsList = document.getElementById("trips-list");
 
 const loginError = document.getElementById("login-error");
 const registerError = document.getElementById("register-error");
+const loginCard = document.getElementById("login-card");
+const registerCard = document.getElementById("register-card");
+const showRegisterLink = document.getElementById("show-register");
+const showLoginLink = document.getElementById("show-login");
 
 let currentUser = null;
 let currentRole = null;
+
+// Eventos para alternar visibilidad
+showRegisterLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  loginError.classList.add("hidden");
+  loginCard.classList.add("hidden");
+  registerCard.classList.remove("hidden");
+});
+
+showLoginLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  registerError.classList.add("hidden");
+  registerCard.classList.add("hidden");
+  loginCard.classList.remove("hidden");
+});
 
 // REGISTRO
 registerForm.addEventListener("submit", async (e) => {

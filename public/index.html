@@ -11,39 +11,52 @@
   <div class="container">
     <h1>Huber CRESPO</h1>
 
-    <!-- AUTENTICACIÓN -->
-    <div id="auth-section">
-      <div class="card">
-        <h2>Iniciar Sesión</h2>
-        <form id="login-form" novalidate>
-          <input type="email" id="login-email" placeholder="Correo electrónico">
-          <input type="password" id="login-password" placeholder="Contraseña">
-          <div id="login-error" class="error-msg hidden"></div>
-          <button type="submit">Ingresar</button>
-        </form>
-      </div>
+<!-- AUTENTICACIÓN -->
+<div id="auth-section">
+
+  <!-- TARJETA DE LOGIN (VISIBLE POR DEFECTO) -->
+  <div id="login-card" class="card">
+    <h2>Iniciar Sesión</h2>
+    <form id="login-form" novalidate>
+      <input type="email" id="login-email" placeholder="Correo electrónico">
+      <input type="password" id="login-password" placeholder="Contraseña">
       
-      <!-- FORMULARIO DE REGISTRO -->
-      <div class="card">
-        <h2>Crear Cuenta</h2>
-        <form id="register-form" novalidate>
-          <input type="text" id="reg-nombre" placeholder="Nombre completo">
-          <input type="email" id="reg-email" placeholder="Correo electrónico">
-          <input type="password" id="reg-password" placeholder="Contraseña (min. 6 caracteres)">
-    
-          <label for="reg-rol">Tipo de cuenta:</label>
-          <select id="reg-rol">
-            <option value="">Selecciona un rol</option>
-            <option value="pasajero">Pasajero</option>
-            <option value="conductor">Conductor</option>
-          </select>
+      <div id="login-error" class="error-msg hidden"></div>
 
-          <div id="register-error" class="error-msg hidden"></div>
+      <button type="submit">Ingresar</button>
+    </form>
 
-          <button type="submit">Registrarse</button>
-        </form>
-      </div>
+    <div class="auth-switch">
+      ¿No tienes una cuenta? <a href="#" id="show-register">Crear Cuenta</a>
     </div>
+  </div>
+
+  <!-- TARJETA DE REGISTRO (OCULTA INICIALMENTE) -->
+  <div id="register-card" class="card hidden">
+    <h2>Crear Cuenta</h2>
+    <form id="register-form" novalidate>
+      <input type="text" id="reg-nombre" placeholder="Nombre completo">
+      <input type="email" id="reg-email" placeholder="Correo electrónico">
+      <input type="password" id="reg-password" placeholder="Contraseña (min. 6 caracteres)">
+      
+      <label for="reg-rol">Tipo de cuenta:</label>
+      <select id="reg-rol">
+        <option value="">Selecciona un rol</option>
+        <option value="pasajero">Pasajero</option>
+        <option value="conductor">Conductor</option>
+      </select>
+
+      <div id="register-error" class="error-msg hidden"></div>
+
+      <button type="submit">Registrarse</button>
+    </form>
+
+    <div class="auth-switch">
+      ¿Ya tienes cuenta? <a href="#" id="show-login">Iniciar Sesión</a>
+    </div>
+  </div>
+
+</div>
 
     <!-- PANEL PRINCIPAL -->
     <div id="user-panel" class="card hidden">

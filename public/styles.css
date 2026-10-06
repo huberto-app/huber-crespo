@@ -258,3 +258,25 @@ hr {
   80% { transform: translateX(4px); }
   100% { transform: translateX(0); }
 }
+
+/* ENLACES DE ALTERNANCIA LOGIN / REGISTRO */
+.auth-switch {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.auth-switch a {
+  color: var(--yellow-vibrant);
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 5px;
+  transition: all 0.2s ease;
+}
+
+.auth-switch a:hover {
+  color: #ffffff;
+  text-shadow: 0 0 10px var(--yellow-vibrant);
+  text-decoration: underline;
+}
