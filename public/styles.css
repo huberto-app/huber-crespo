@@ -52,12 +52,44 @@ h1 {
   font-weight: 800;
   margin-bottom: 25px;
   letter-spacing: -1px;
-  line-height: 1;
-  background: linear-gradient(90deg, var(--yellow-vibrant), var(--cyan-bright));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 30px rgba(255, 230, 0, 0.3);
+  line-height: 1.2;
   text-transform: uppercase;
+  
+  /* Flexbox para alinear HUBER con el Badge */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+
+  /* Estilo Amarillo con Borde/Contorno Oscuro para "HUBER" */
+  color: var(--yellow-vibrant, #ffe600);
+  -webkit-text-fill-color: var(--yellow-vibrant, #ffe600);
+  -webkit-text-stroke: 1.5px #121212; /* Borde oscuro alrededor del texto */
+  background: none; /* Quitamos el degradado */
+  text-shadow: 0 4px 15px rgba(255, 230, 0, 0.3);
+}
+
+/* ESTILO BADGE CRESPO - Opción Caja Oscura con Texto Resaltado */
+h1 .badge-crespo {
+  -webkit-text-stroke: 0px transparent !important;
+  
+  /* Texto amarillo brillante */
+  -webkit-text-fill-color: var(--yellow-vibrant, #ffe600) !important;
+  color: var(--yellow-vibrant, #ffe600) !important;
+  background-image: none !important;
+  background-color: #0d0d0d !important;
+  border: 1.5px solid var(--yellow-vibrant, #ffe600) !important;
+  
+  /* Formato */
+  font-size: 1.2rem; /* Un poco más grande */
+  padding: 0.25rem 0.8rem;
+  border-radius: 8px;
+  letter-spacing: 2px; /* Más espacio entre letras para que no se peguen */
+  font-weight: 900;
+  vertical-align: middle;
+  box-shadow: 0 0 12px rgba(255, 230, 0, 0.3);
+  text-shadow: 0 0 5px rgba(255, 230, 0, 0.5) !important;
 }
 
 /* TARJETA INDUSTRIAL OSCURA */
