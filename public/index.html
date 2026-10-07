@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>App de Transporte - Realtime DB</title>
+  <title>App para compartir transporte</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-  <div class="container">
-    <h1>Huber CRESPO</h1>
+  
+<div class="container">
+  <h1>Huber CRESPO</h1>
 
 <!-- AUTENTICACIÓN -->
 <div id="auth-section">
@@ -19,7 +19,17 @@
     <h2>Iniciar Sesión</h2>
     <form id="login-form" novalidate>
       <input type="email" id="login-email" placeholder="Correo electrónico">
-      <input type="password" id="login-password" placeholder="Contraseña">
+  
+      <div class="password-container">
+        <input type="password" id="login-password" placeholder="Contraseña">
+        <button type="button" id="toggle-login-password" class="toggle-password-btn" aria-label="Mostrar u ocultar contraseña">
+          <!-- Icono inicial: Ojo abierto -->
+          <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </button>
+      </div>
       
       <div id="login-error" class="error-msg hidden"></div>
 
