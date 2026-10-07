@@ -66,6 +66,13 @@ const showLoginFromResetLink = document.getElementById("show-login-from-reset");
 let currentUser = null;
 let currentRole = null;
 
+// Función auxiliar para escapar textos (Prevenir XSS)
+function escapeHTML(str) {
+  return str.replace(/[&<>'"]/g, 
+    tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+  );
+}
+
 // Eventos para alternar visibilidad
 showRegisterLink.addEventListener("click", (e) => {
   e.preventDefault();
@@ -81,7 +88,7 @@ showLoginLink.addEventListener("click", (e) => {
   loginCard.classList.remove("hidden");
 });
 
-// REGISTRO CON TELÉFONO OPCIONAL Y VALIDACIÓN REGEX
+// REGISTRO
 registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   
@@ -95,60 +102,26 @@ registerForm.addEventListener("submit", async (e) => {
   const confirmPassword = document.getElementById("reg-confirm-password").value.trim();
   const rol = document.getElementById("reg-rol").value;
 
-  // 1. Validar campos obligatorios
-  if (!nombre) {
-    mostrarErrorRegistro("Ingresa tu nombre completo.");
-    return;
-  }
-  if (!email) {
-    mostrarErrorRegistro("Ingresa tu correo electrónico.");
-    return;
-  }
+  if (!nombre) return mostrarErrorRegistro("Ingresa tu nombre completo.");
+  if (!email) return mostrarErrorRegistro("Ingresa tu correo electrónico.");
   
-  // 2. Validar formato de email
   const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!regexEmail.test(email)) {
-    mostrarErrorRegistro("El formato del correo electrónico no es válido.");
-    return;
-  }
+  if (!regexEmail.test(email)) return mostrarErrorRegistro("El formato del correo electrónico no es válido.");
 
-  // 3. Validar teléfono (SOLO SI SE INGRESÓ ALGO)
   if (telefono !== "") {
-    // Elimina espacios, guiones y paréntesis para verificar los dígitos reales
     const telefonoLimpio = telefono.replace(/[\s\-\(\)]/g, "");
     const regexTelefono = /^\+?[0-9]{7,15}$/;
-
     if (!regexTelefono.test(telefonoLimpio)) {
-      mostrarErrorRegistro("El teléfono ingresado no tiene un formato válido.");
-      return;
+      return mostrarErrorRegistro("El teléfono ingresado no tiene un formato válido.");
     }
   }
 
-  // 4. Validar contraseñas
-  if (!password) {
-    mostrarErrorRegistro("Ingresa una contraseña.");
-    return;
-  }
-  if (password.length < 6) {
-    mostrarErrorRegistro("La contraseña debe tener al menos 6 caracteres.");
-    return;
-  }
-  if (!confirmPassword) {
-    mostrarErrorRegistro("Por favor, repite la contraseña.");
-    return;
-  }
-  if (password !== confirmPassword) {
-    mostrarErrorRegistro("Las contraseñas no coinciden.");
-    return;
-  }
+  if (!password) return mostrarErrorRegistro("Ingresa una contraseña.");
+  if (password.length < 6) return mostrarErrorRegistro("La contraseña debe tener al menos 6 caracteres.");
+  if (!confirmPassword) return mostrarErrorRegistro("Por favor, repite la contraseña.");
+  if (password !== confirmPassword) return mostrarErrorRegistro("Las contraseñas no coinciden.");
+  if (!rol) return mostrarErrorRegistro("Selecciona un tipo de cuenta (Pasajero o Conductor).");
 
-  // 5. Validar rol
-  if (!rol) {
-    mostrarErrorRegistro("Selecciona un tipo de cuenta (Pasajero o Conductor).");
-    return;
-  }
-
-  // 6. Registro en Firebase
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
@@ -164,83 +137,43 @@ registerForm.addEventListener("submit", async (e) => {
     registerForm.reset();
   } catch (error) {
     let mensaje = "Ocurrió un error al crear la cuenta.";
-
     switch (error.code) {
-      case "auth/email-already-in-use":
-        mensaje = "Este correo electrónico ya está registrado.";
-        break;
-      case "auth/invalid-email":
-        mensaje = "El formato del correo electrónico no es válido.";
-        break;
-      case "auth/weak-password":
-        mensaje = "La contraseña es muy débil. Debe tener al menos 6 caracteres.";
-        break;
-      case "auth/network-request-failed":
-        mensaje = "Error de conexión a internet.";
-        break;
+      case "auth/email-already-in-use": mensaje = "Este correo electrónico ya está registrado."; break;
+      case "auth/invalid-email": mensaje = "El formato del correo electrónico no es válido."; break;
+      case "auth/weak-password": mensaje = "La contraseña es muy débil. Debe tener al menos 6 caracteres."; break;
+      case "auth/network-request-failed": mensaje = "Error de conexión a internet."; break;
     }
-
     mostrarErrorRegistro(mensaje);
   }
 });
 
-// Función auxiliar para mostrar el error de registro
 function mostrarErrorRegistro(texto) {
   registerError.textContent = texto;
   registerError.classList.remove("hidden");
 }
 
-// LOGIN
+// LOGIN (Corregido)
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   
-  // Resetear mensaje de error previo
   loginError.classList.add("hidden");
   loginError.textContent = "";
 
   const email = document.getElementById("login-email").value.trim();
   const password = document.getElementById("login-password").value.trim();
 
-  // Validar campos vacíos
-  if (!email && !password) {
-    mostrarErrorLogin("Por favor, ingresa tu correo y contraseña.");
-    return;
-  }
-  if (!email) {
-    mostrarErrorLogin("Ingresa tu correo electrónico.");
-    return;
-  }
-  if (!password) {
-    mostrarErrorLogin("Ingresa tu contraseña.");
-    return;
-  }
+  if (!email && !password) return mostrarErrorLogin("Por favor, ingresa tu correo y contraseña.");
+  if (!email) return mostrarErrorLogin("Ingresa tu correo electrónico.");
+  if (!password) return mostrarErrorLogin("Ingresa tu contraseña.");
 
-  // Validar teléfono (SOLO SI SE INGRESÓ ALGO)
-  if (telefono !== "") {
-    // Elimina espacios, guiones y paréntesis para verificar los dígitos reales
-    const telefonoLimpio = telefono.replace(/[\s\-\(\)]/g, "");
-    const regexTelefono = /^\+?[0-9]{7,15}$/;
-
-    if (!regexTelefono.test(telefonoLimpio)) {
-      mostrarErrorRegistro("El teléfono ingresado no tiene un formato válido.");
-      return;
-    }
-  }
-
-  // Validar formato de email básico
   const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!regexEmail.test(email)) {
-    mostrarErrorLogin("El formato del correo electrónico no es válido.");
-    return;
-  }
+  if (!regexEmail.test(email)) return mostrarErrorLogin("El formato del correo electrónico no es válido.");
 
-  // 3. Intento de inicio de sesión en Firebase
   try {
     await signInWithEmailAndPassword(auth, email, password);
     loginForm.reset();
   } catch (error) {
     let mensaje = "Ocurrió un error al iniciar sesión.";
-
     switch (error.code) {
       case "auth/invalid-credential":
       case "auth/user-not-found":
@@ -260,19 +193,16 @@ loginForm.addEventListener("submit", async (e) => {
         mensaje = "Error de conexión a internet.";
         break;
     }
-
     mostrarErrorLogin(mensaje);
   }
 });
 
-// Función auxiliar para mostrar el error de forma limpia
 function mostrarErrorLogin(texto) {
   loginError.textContent = texto;
   loginError.classList.remove("hidden");
 }
 
-// RECUPERACION DE CONTRASEÑA
-// Conmutación de pantallas
+// RECUPERACIÓN DE CONTRASEÑA
 showResetLink.addEventListener("click", (e) => {
   e.preventDefault();
   loginError.classList.add("hidden");
@@ -288,25 +218,16 @@ showLoginFromResetLink.addEventListener("click", (e) => {
   loginCard.classList.remove("hidden");
 });
 
-// Envío de correo de recuperación
 resetForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-
   resetError.classList.add("hidden");
   resetSuccess.classList.add("hidden");
 
   const email = resetEmailInput.value.trim();
-
-  if (!email) {
-    mostrarErrorReset("Ingresa tu correo electrónico.");
-    return;
-  }
+  if (!email) return mostrarErrorReset("Ingresa tu correo electrónico.");
 
   const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!regexEmail.test(email)) {
-    mostrarErrorReset("El formato del correo electrónico no es válido.");
-    return;
-  }
+  if (!regexEmail.test(email)) return mostrarErrorReset("El formato del correo electrónico no es válido.");
 
   try {
     await sendPasswordResetEmail(auth, email);
@@ -315,19 +236,11 @@ resetForm.addEventListener("submit", async (e) => {
     resetForm.reset();
   } catch (error) {
     let mensaje = "Ocurrió un error al intentar enviar el correo.";
-
     switch (error.code) {
-      case "auth/user-not-found":
-        mensaje = "No existe ninguna cuenta registrada con este correo.";
-        break;
-      case "auth/invalid-email":
-        mensaje = "El correo electrónico no es válido.";
-        break;
-      case "auth/network-request-failed":
-        mensaje = "Error de conexión a internet.";
-        break;
+      case "auth/user-not-found": mensaje = "No existe ninguna cuenta registrada con este correo."; break;
+      case "auth/invalid-email": mensaje = "El correo electrónico no es válido."; break;
+      case "auth/network-request-failed": mensaje = "Error de conexión a internet."; break;
     }
-
     mostrarErrorReset(mensaje);
   }
 });
@@ -353,7 +266,6 @@ onAuthStateChanged(auth, async (user) => {
       userNameSpan.textContent = userData.nombre;
       userRoleSpan.textContent = userData.rol;
 
-      // Ocultar tarjetas de autenticación y mostrar panel principal
       authSection.classList.add("hidden");
       userPanel.classList.remove("hidden");
 
@@ -368,14 +280,12 @@ onAuthStateChanged(auth, async (user) => {
       }
     }
   } else {
-    // Si NO hay sesión iniciada (o el usuario cerró sesión):
     currentUser = null;
     currentRole = null;
     
     authSection.classList.remove("hidden");
     userPanel.classList.add("hidden");
 
-    // AQUÍ: Nos aseguramos de volver al Login por defecto
     loginCard.classList.remove("hidden");
     registerCard.classList.add("hidden");
     resetCard.classList.add("hidden");
@@ -385,8 +295,10 @@ onAuthStateChanged(auth, async (user) => {
 // PASAJERO: SOLICITAR VIAJE
 tripForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const origin = document.getElementById("trip-origin").value;
-  const destination = document.getElementById("trip-destination").value;
+  const origin = document.getElementById("trip-origin").value.trim();
+  const destination = document.getElementById("trip-destination").value.trim();
+
+  if (!origin || !destination) return;
 
   const newTripRef = push(ref(db, "trips"));
   await set(newTripRef, {
@@ -394,7 +306,7 @@ tripForm.addEventListener("submit", async (e) => {
     pasajeroId: currentUser.uid,
     origen: origin,
     destino: destination,
-    estado: "pendiente", // "pendiente", "aceptado", "finalizado"
+    estado: "pendiente",
     fecha: new Date().toISOString()
   });
 
@@ -412,9 +324,9 @@ function escucharMiViajePasajero(userId) {
         const trip = trips[id];
         if (trip.pasajeroId === userId && trip.estado !== "finalizado") {
           pasajeroStatus.innerHTML = `
-            <p><strong>Estado del viaje:</strong> ${trip.estado.toUpperCase()}</p>
-            <p><strong>Origen:</strong> ${trip.origen}</p>
-            <p><strong>Destino:</strong> ${trip.destino}</p>
+            <p><strong>Estado del viaje:</strong> ${escapeHTML(trip.estado.toUpperCase())}</p>
+            <p><strong>Origen:</strong> ${escapeHTML(trip.origen)}</p>
+            <p><strong>Destino:</strong> ${escapeHTML(trip.destino)}</p>
           `;
           break;
         }
@@ -439,8 +351,8 @@ function escucharViajesDisponibles() {
           const tripDiv = document.createElement("div");
           tripDiv.className = "trip-item";
           tripDiv.innerHTML = `
-            <p><strong>Origen:</strong> ${trip.origen}</p>
-            <p><strong>Destino:</strong> ${trip.destino}</p>
+            <p><strong>Origen:</strong> ${escapeHTML(trip.origen)}</p>
+            <p><strong>Destino:</strong> ${escapeHTML(trip.destino)}</p>
             <button onclick="aceptarViaje('${trip.tripId}')">Aceptar Viaje</button>
           `;
           tripsList.appendChild(tripDiv);
@@ -456,11 +368,18 @@ function escucharViajesDisponibles() {
   });
 }
 
-// ACEPTAR VIAJE (Función global para el onclick)
+// ACEPTAR VIAJE
 window.aceptarViaje = async (tripId) => {
-  await update(ref(db, `trips/${tripId}`), {
-    estado: "aceptado",
-    conductorId: currentUser.uid
-  });
-  alert("Viaje aceptado correctamente");
+  if (!currentUser) return alert("Debes estar autenticado para aceptar viajes.");
+
+  try {
+    await update(ref(db, `trips/${tripId}`), {
+      estado: "aceptado",
+      conductorId: currentUser.uid
+    });
+    alert("¡Viaje aceptado correctamente!");
+  } catch (err) {
+    console.error("Error al aceptar viaje:", err);
+    alert("Hubo un problema al aceptar el viaje.");
+  }
 };
