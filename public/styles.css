@@ -1,397 +1,353 @@
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Syne:wght@700;800&display=swap');
-
-:root {
-  --bg-dark: #050508;
-  --card-bg: #0d0e15;
-  --input-bg: #141622;
-  
-  --yellow-vibrant: #ffe600;
-  --purple-electric: #7000ff;
-  --pink-neon: #ff0055;
-  --cyan-bright: #00f0ff;
-  
-  --text-primary: #ffffff;
-  --text-secondary: #8b8e9f;
-  
-  --border-glow: rgba(255, 230, 0, 0.25);
-}
-
+/* styles.css */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Rajdhani', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
-body {
-  background-color: var(--bg-dark);
-  color: var(--text-primary);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    radial-gradient(circle at 50% 0%, rgba(112, 0, 255, 0.25) 0%, transparent 60%),
-    radial-gradient(circle at 100% 100%, rgba(255, 0, 85, 0.15) 0%, transparent 50%);
-  background-size: 30px 30px, 30px 30px, 100% 100%, 100% 100%;
-}
-
-.container {
+body, html {
   width: 100%;
-  max-width: 450px;
-}
-
-/* HEADER Y ESTRUCTURA DEL TÍTULO */
-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-/* TÍTULO HUBER CRESPO */
-h1 {
-  font-family: 'Syne', sans-serif;
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin: 0 0 8px 0; /* Margen inferior ajustado hacia el tagline */
-  letter-spacing: -1px;
-  line-height: 1.1;
-  text-transform: uppercase;
-  
-  /* Flexbox para alinear HUBER con el Badge */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-
-  /* Estilo Amarillo con Borde Oscuro */
-  color: var(--yellow-vibrant, #ffe600);
-  -webkit-text-fill-color: var(--yellow-vibrant, #ffe600);
-  -webkit-text-stroke: 1.5px #121212;
-  background: none;
-  text-shadow: 0 4px 15px rgba(255, 230, 0, 0.3);
-}
-
-/* ESTILO BADGE CRESPO - Opción Caja Oscura con Texto Resaltado */
-h1 .badge-crespo {
-  -webkit-text-stroke: 0px transparent !important;
-  
-  /* Texto amarillo brillante */
-  -webkit-text-fill-color: var(--yellow-vibrant, #ffe600) !important;
-  color: var(--yellow-vibrant, #ffe600) !important;
-  background-image: none !important;
-  background-color: #0d0d0d !important;
-  border: 1.5px solid var(--yellow-vibrant, #ffe600) !important;
-  
-  /* Formato */
-  font-size: 1.2rem; /* Un poco más grande */
-  padding: 0.25rem 0.8rem;
-  border-radius: 8px;
-  letter-spacing: 2px; /* Más espacio entre letras para que no se peguen */
-  font-weight: 900;
-  vertical-align: middle;
-  box-shadow: 0 0 12px rgba(255, 230, 0, 0.3);
-  text-shadow: 0 0 5px rgba(255, 230, 0, 0.5) !important;
-}
-
-/* TAGLINE / BAJADA */
-header .tagline {
-  font-family: 'Rajdhani', sans-serif;
-  color: var(--text-secondary, #a0a0a0);
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin: 0;
-  opacity: 0.85;
-}
-
-/* TARJETA INDUSTRIAL OSCURA */
-.card {
-  background: var(--card-bg);
-  padding: 28px 24px;
-  margin-bottom: 20px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8),
-              0 0 0 1px rgba(112, 0, 255, 0.2);
-  position: relative;
+  height: 100%;
   overflow: hidden;
+  background-color: #000;
 }
 
-.card::before {
-  content: '';
+/* Mapa en pantalla completa */
+#map {
+  width: 100%;
+  height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--yellow-vibrant), var(--purple-electric), var(--pink-neon));
+  z-index: 1;
+}
+
+/* Header superior */
+.top-bar {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-icon {
+  background: white;
+  border: none;
+  padding: 12px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.2rem;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.logo span {
+  color: #ff5e00; /* Color vibrante tipo DiDi */
+}
+
+/* Panel Inferior Flotante */
+.booking-card {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: white;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 20px 24px 32px;
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.15);
+  max-width: 500px;
+  margin: 0 auto; /* Para centrar en pantallas grandes */
+}
+
+.drag-handle {
+  width: 40px;
+  height: 4px;
+  background: #E2E8F0;
+  border-radius: 2px;
+  margin: 0 auto 16px;
 }
 
 h2 {
-  font-family: 'Syne', sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin-bottom: 16px;
+}
+
+/* Selector de ruta */
+.route-inputs {
+  background: #F8FAFC;
+  border-radius: 16px;
+  padding: 12px;
   margin-bottom: 20px;
-  color: var(--text-primary);
-  letter-spacing: 0px;
+  position: relative;
 }
 
-h3 {
-  font-size: 1.2rem;
-  margin: 15px 0 10px 0;
-  color: var(--yellow-vibrant);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-form {
+.input-group input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 8px 0;
+  font-size: 0.95rem;
+  outline: none;
+  color: #0F172A;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.dot.origin { background: #10B981; }
+.dot.destination { background: #EF4444; }
+
+.input-line {
+  width: 2px;
+  height: 16px;
+  background: #CBD5E1;
+  margin-left: 4px;
+}
+
+/* Opciones de Vehículo */
+.ride-options {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-label {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: -6px;
-}
-
-/* INPUTS CON ACENTO AMARILLO/NEÓN */
-input, select {
-  width: 100%;
+.ride-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 14px 16px;
-  background-color: var(--input-bg);
-  border: 2px solid #1a1d2e;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 1.05rem;
-  font-weight: 600;
-  outline: none;
-  transition: all 0.25s ease;
+  border: 2px solid #F1F5F9;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-input::placeholder {
-  color: var(--text-secondary);
-  font-weight: 600;
+.ride-option.active, .ride-option:hover {
+  border-color: #ff5e00;
+  background-color: #FFF7ED;
 }
 
-input:focus, select:focus {
-  border-color: var(--yellow-vibrant);
-  box-shadow: 0 0 15px rgba(255, 230, 0, 0.2);
-  background-color: #181b2a;
-}
+.ride-info h4 { font-size: 0.95rem; color: #0F172A; }
+.ride-info p { font-size: 0.8rem; color: #64748B; }
+.ride-price { font-weight: 700; color: #0F172A; }
 
-select option {
-  background-color: var(--card-bg);
-  color: var(--text-primary);
-}
-
-/* BOTÓN AMARILLO NEÓN CON ALTO CONTRASTE */
-button {
+/* Botón Principal */
+.btn-primary {
   width: 100%;
   padding: 16px;
-  font-size: 1.1rem;
-  font-weight: 700;
+  background: #0F172A; /* Negro/Azul oscuro para contraste, o usa #ff5e00 */
+  color: white;
   border: none;
-  border-radius: 8px;
-  color: #000;
-  background: var(--yellow-vibrant);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  box-shadow: 0 6px 20px rgba(255, 230, 0, 0.25);
-  margin-top: 8px;
-}
-
-button:hover {
-  background: #fff;
-  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.4);
-  transform: translateY(-2px);
-}
-
-button:active {
-  transform: translateY(0);
-}
-
-#logout-btn {
-  background: var(--pink-neon);
-  color: #fff;
-  box-shadow: 0 6px 20px rgba(255, 0, 85, 0.3);
-}
-
-#logout-btn:hover {
-  background: #ff2277;
-  box-shadow: 0 8px 30px rgba(255, 0, 85, 0.5);
-}
-
-hr {
-  border: 0;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.1);
-  margin: 22px 0;
-}
-
-.status-box {
-  margin-top: 15px;
-  padding: 16px;
-  background: rgba(112, 0, 255, 0.15);
-  border-left: 4px solid var(--purple-electric);
-  border-radius: 6px;
+  border-radius: 14px;
   font-size: 1rem;
-  color: var(--text-primary);
   font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.trip-item {
-  background: #121420;
-  border: 1px solid rgba(255, 230, 0, 0.2);
-  padding: 16px;
-  margin-top: 12px;
-  border-radius: 8px;
+.btn-primary:hover {
+  background: #1E293B;
+}* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
 }
 
-.trip-item p {
-  font-size: 1rem;
-  margin-bottom: 6px;
-  color: var(--text-secondary);
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #0F172A;
 }
 
-.trip-item p strong {
-  color: var(--yellow-vibrant);
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
 }
 
-.hidden {
-  display: none !important;
+.top-bar {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* MENSAJE DE ERROR ESTILO HUD / ALERTA DE SISTEMA */
-.error-msg {
-  background: rgba(13, 14, 21, 0.95);
-  border: 1px solid var(--pink-neon);
-  border-left: 4px solid var(--pink-neon);
-  color: #ffffff;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 0.9rem;
+.btn-icon {
+  background: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+
+.logo {
   font-weight: 700;
-  letter-spacing: 0.5px;
+  font-size: 1.1rem;
+  background: white;
+  padding: 8px 18px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  color: #0F172A;
+}
+
+.logo span {
+  color: #FF5E00;
+}
+
+.booking-card {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: white;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 16px 20px 28px;
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.2);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.drag-handle {
+  width: 36px;
+  height: 4px;
+  background: #CBD5E1;
+  border-radius: 2px;
+  margin: 0 auto 12px;
+}
+
+h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin-bottom: 14px;
+}
+
+.route-inputs {
+  background: #F1F5F9;
+  border-radius: 14px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+.input-group {
   display: flex;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 4px 20px rgba(255, 0, 85, 0.25),
-              inset 0 0 10px rgba(255, 0, 85, 0.1);
-  animation: shakeError 0.35s ease-in-out;
 }
 
-.error-msg::before {
-  content: '⚠';
-  font-size: 1.1rem;
-  color: var(--pink-neon);
-  text-shadow: 0 0 8px var(--pink-neon);
+.input-group input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 6px 0;
+  font-size: 0.9rem;
+  outline: none;
+  color: #0F172A;
+  font-weight: 500;
 }
 
-/* EFECTO DE SACUDIDA AL APARECER */
-@keyframes shakeError {
-  0% { transform: translateX(0); }
-  20% { transform: translateX(-6px); }
-  40% { transform: translateX(6px); }
-  60% { transform: translateX(-4px); }
-  80% { transform: translateX(4px); }
-  100% { transform: translateX(0); }
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot.origin { background: #10B981; }
+.dot.destination { background: #EF4444; }
+
+.input-line {
+  width: 2px;
+  height: 12px;
+  background: #94A3B8;
+  margin-left: 4px;
 }
 
-/* ENLACES DE ALTERNANCIA LOGIN / REGISTRO */
-.auth-switch {
-  margin-top: 18px;
-  text-align: center;
-  font-size: 0.95rem;
-  color: var(--text-secondary);
+.ride-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
-.auth-switch a {
-  color: var(--yellow-vibrant);
-  font-weight: 700;
-  text-decoration: none;
-  margin-left: 5px;
+.ride-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  border: 2px solid #E2E8F0;
+  border-radius: 12px;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.auth-switch a:hover {
-  color: #ffffff;
-  text-shadow: 0 0 10px var(--yellow-vibrant);
-  text-decoration: underline;
+.ride-option.active {
+  border-color: #FF5E00;
+  background-color: #FFF7ED;
 }
 
-/* MENSAJE DE ÉXITO */
-.success-msg {
-  background: rgba(0, 255, 136, 0.1);
-  border: 1px solid var(--neon-green, #00ff88);
-  border-left: 4px solid var(--neon-green, #00ff88);
-  color: #ffffff;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 4px 20px rgba(0, 255, 136, 0.2);
-}
+.ride-info h4 { font-size: 0.9rem; color: #0F172A; }
+.ride-info p { font-size: 0.78rem; color: #64748B; }
+.ride-price { font-weight: 700; color: #0F172A; }
 
-.success-msg::before {
-  content: '✓';
-  font-size: 1.1rem;
-  color: #00ff88;
-  text-shadow: 0 0 8px #00ff88;
-}
-
-/* Limpia los estilos globales de botón e integra el icono al final del input */
-.password-container {
-  position: relative;
-  display: flex;
-  align-items: center;
+.btn-primary {
   width: 100%;
-}
-
-.password-container input {
-  width: 100%;
-  padding-right: 2.8rem; /* Espacio reservado para que el icono no tape el texto */
-}
-
-/* Sobrescribe los estilos del botón "Ingresar" */
-.password-container .toggle-password-btn {
-  position: absolute;
-  right: 0.75rem;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  width: auto !important;
-  height: auto !important;
-  padding: 0 !important;
-  margin: 0 !important;
+  padding: 14px;
+  background: #0F172A;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 1.2rem;
-  line-height: 1;
-  color: inherit;
-  opacity: 0.7;
+  transition: background 0.2s;
 }
 
-.password-container .toggle-password-btn:hover {
-  background: transparent !important;
-  opacity: 1;
+.btn-primary:hover {
+  background: #1E293B;
 }
 
-
+/* Invierte las imágenes de OpenStreetMap para convertirlas en mapa oscuro */
+.leaflet-tile-container img {
+  filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3);
+}

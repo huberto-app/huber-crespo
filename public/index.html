@@ -3,123 +3,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>App para compartir transporte</title>
+  <title>MiApp Ride</title>
+  
+  <!-- 1. Estilos del mapa (Leaflet CSS) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <!-- 2. Fuente moderna (Inter) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- 3. Iconos (Lucide Icons) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- 4. Tus estilos CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+  <!-- Contenedor del Mapa (Ocupa el 100% de la pantalla de fondo) -->
+  <div id="map"></div>
+
+  <!-- Barra Superior Flotante -->
+  <header class="top-bar">
+    <button class="btn-icon"><i data-lucide="menu"></i></button>
+    <div class="logo">GO<span>ride</span></div>
+    <div class="user-avatar">
+      <button class="btn-icon"><i data-lucide="user"></i></button>
+    </div>
+  </header>
+
+  <!-- Tarjeta Inferior de Reserva (Panel flotante tipo Uber/DiDi) -->
+  <main class="booking-card">
+    <div class="drag-handle"></div>
+    
+    <h2>¿A dónde vamos hoy?</h2>
+
+    <!-- Inputs de Origen y Destino -->
+    <div class="route-inputs">
+      <div class="input-group">
+        <span class="dot origin"></span>
+        <input type="text" placeholder="Ubicación actual" value="Mi ubicación actual">
+      </div>
+      <div class="input-line"></div>
+      <div class="input-group">
+        <span class="dot destination"></span>
+        <input type="text" placeholder="¿Hacia dónde vas?">
+      </div>
+    </div>
+
+    <!-- Selección de Vehículos -->
+    <div class="ride-options">
+      <div class="ride-option active">
+        <div class="ride-info">
+          <h4>GO Express</h4>
+          <p>Llegada en 3 min</p>
+        </div>
+        <div class="ride-price">$1.200</div>
+      </div>
+
+      <div class="ride-option">
+        <div class="ride-info">
+          <h4>GO Comfort</h4>
+          <p>Autos más amplios</p>
+        </div>
+        <div class="ride-price">$1.650</div>
+      </div>
+    </div>
+
+    <!-- Botón Principal de Acción -->
+    <button class="btn-primary">Confirmar Viaje</button>
+  </main>
+
+  <!-- 5. Script del Mapa (Leaflet JS debe ir antes de main.js) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   
-<div class="container">
-<header>
-  <h1>HUBER <span class="badge-crespo">CRESPO</span></h1>
-  <p class="tagline">Tu transporte rápido y seguro</p>
-</header>
-<!-- AUTENTICACIÓN -->
-<div id="auth-section">
-
-  <!-- TARJETA DE LOGIN -->
-  <div id="login-card" class="card">
-    <h2>Iniciar Sesión</h2>
-    <form id="login-form" novalidate>
-      <input type="email" id="login-email" placeholder="Correo electrónico">
-  
-      <div class="password-container">
-        <input type="password" id="login-password" placeholder="Contraseña">
-        <button type="button" id="toggle-login-password" class="toggle-password-btn" aria-label="Mostrar u ocultar contraseña">
-          <!-- Icono inicial: Ojo abierto -->
-          <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-            <circle cx="12" cy="12" r="3"></circle>
-          </svg>
-        </button>
-      </div>
-      
-      <div id="login-error" class="error-msg hidden"></div>
-
-      <button type="submit">Ingresar</button>
-    </form>
-
-    <div class="auth-switch">
-      ¿Olvidaste tu contraseña? <a href="#" id="show-reset">Recuperar</a>
-    </div>
-    <div class="auth-switch" style="margin-top: 8px;">
-      ¿No tienes una cuenta? <a href="#" id="show-register">Crear Cuenta</a>
-    </div>
-  </div>
-
-  <!-- TARJETA DE RECUPERAR CONTRASEÑA -->
-  <div id="reset-card" class="card hidden">
-    <h2>Recuperar Contraseña</h2>
-    <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 0.95rem;">
-      Ingresa tu correo y te enviaremos un enlace para restablecer tu cuenta.
-    </p>
-    <form id="reset-form" novalidate>
-      <input type="email" id="reset-email" placeholder="Correo electrónico">
-      
-      <div id="reset-error" class="error-msg hidden"></div>
-      <div id="reset-success" class="success-msg hidden"></div>
-
-      <button type="submit">Enviar Enlace</button>
-    </form>
-
-    <div class="auth-switch">
-      <a href="#" id="show-login-from-reset">Volver a Iniciar Sesión</a>
-    </div>
-  </div>
-
-  <!-- TARJETA DE REGISTRO -->
-  <div id="register-card" class="card hidden">
-    <h2>Crear Cuenta</h2>
-    <form id="register-form" novalidate>
-      <input type="text" id="reg-nombre" placeholder="Nombre completo">
-      <input type="email" id="reg-email" placeholder="Correo electrónico">
-      <input type="tel" id="reg-telefono" placeholder="Teléfono (opcional)">
-      <input type="password" id="reg-password" placeholder="Contraseña (min. 6 caracteres)">
-      <input type="password" id="reg-confirm-password" placeholder="Repetir contraseña">
-      
-      <label for="reg-rol">Tipo de cuenta:</label>
-      <select id="reg-rol">
-        <option value="">Selecciona un rol</option>
-        <option value="pasajero">Pasajero</option>
-        <option value="conductor">Conductor</option>
-      </select>
-
-      <div id="register-error" class="error-msg hidden"></div>
-
-      <button type="submit">Registrarse</button>
-    </form>
-
-    <div class="auth-switch">
-      ¿Ya tienes cuenta? <a href="#" id="show-login">Iniciar Sesión</a>
-    </div>
-  </div>
-
-</div>
-    <!-- PANEL PRINCIPAL -->
-    <div id="user-panel" class="card hidden">
-      <h2>Bienvenido, <span id="user-name"></span></h2>
-      <p><strong>Rol:</strong> <span id="user-role"></span></p>
-      <button id="logout-btn">Cerrar Sesión</button>
-      <hr>
-
-      <!-- VISTA PASAJERO -->
-      <div id="panel-pasajero" class="hidden">
-        <h3>Solicitar un Viaje</h3>
-        <form id="trip-form">
-          <input type="text" id="trip-origin" placeholder="Dirección de Origen" required>
-          <input type="text" id="trip-destination" placeholder="Dirección de Destino" required>
-          <button type="submit">Pedir Viaje</button>
-        </form>
-        <div id="pasajero-status" class="status-box"></div>
-      </div>
-
-      <!-- VISTA CONDUCTOR -->
-      <div id="panel-conductor" class="hidden">
-        <h3>Viajes Disponibles</h3>
-        <div id="trips-list">No hay viajes solicitados por ahora.</div>
-      </div>
-    </div>
-  </div>
-
-  <script type="module" src="app.js"></script>
+  <!-- 6. Tu JavaScript principal -->
+  <script src="main.js"></script>
 </body>
 </html>
