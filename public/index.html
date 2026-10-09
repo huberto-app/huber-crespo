@@ -3,59 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MiApp Ride</title>
+  <title>App Ride</title>
   
-  <!-- 1. Estilos del mapa (Leaflet CSS) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  
-  <!-- 2. Fuente moderna (Inter) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- 3. Iconos (Lucide Icons) -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <!-- 4. Tus estilos CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Contenedor del Mapa (Ocupa el 100% de la pantalla de fondo) -->
+  <!-- Mapa de fondo -->
   <div id="map"></div>
 
-  <!-- Barra Superior Flotante -->
+  <!-- Header Transparente con botones laterales -->
   <header class="top-bar">
     <button class="btn-icon"><i data-lucide="menu"></i></button>
-    <div class="logo">GO<span>ride</span></div>
-    <div class="user-avatar">
-      <button class="btn-icon"><i data-lucide="user"></i></button>
-    </div>
+    <button class="btn-icon" id="btn-open-auth"><i data-lucide="user"></i></button>
   </header>
 
-  <!-- Tarjeta Inferior de Reserva (Panel flotante tipo Uber/DiDi) -->
+  <!-- Tarjeta de Reserva Sobria -->
   <main class="booking-card">
     <div class="drag-handle"></div>
     
-    <h2>¿A dónde vamos hoy?</h2>
+    <h2>¿A dónde vas?</h2>
 
-    <!-- Inputs de Origen y Destino -->
+    <!-- Inputs de Ubicación -->
     <div class="route-inputs">
       <div class="input-group">
         <span class="dot origin"></span>
-        <input type="text" placeholder="Ubicación actual" value="Mi ubicación actual">
+        <input type="text" placeholder="Ubicación actual" value="Crespo, Entre Ríos">
       </div>
       <div class="input-line"></div>
       <div class="input-group">
         <span class="dot destination"></span>
-        <input type="text" placeholder="¿Hacia dónde vas?">
+        <input type="text" placeholder="Buscar destino...">
       </div>
     </div>
 
-    <!-- Selección de Vehículos -->
+    <!-- Opciones de Vehículo -->
     <div class="ride-options">
       <div class="ride-option active">
         <div class="ride-info">
           <h4>GO Express</h4>
-          <p>Llegada en 3 min</p>
+          <p>3 min de espera</p>
         </div>
         <div class="ride-price">$1.200</div>
       </div>
@@ -63,20 +53,56 @@
       <div class="ride-option">
         <div class="ride-info">
           <h4>GO Comfort</h4>
-          <p>Autos más amplios</p>
+          <p>5 min de espera</p>
         </div>
         <div class="ride-price">$1.650</div>
       </div>
     </div>
 
-    <!-- Botón Principal de Acción -->
-    <button class="btn-primary">Confirmar Viaje</button>
+    <button class="btn-primary" id="btn-confirm-ride">Confirmar Viaje</button>
   </main>
 
-  <!-- 5. Script del Mapa (Leaflet JS debe ir antes de main.js) -->
+  <!-- Modal Auth -->
+  <div class="auth-modal" id="auth-modal">
+    <div class="auth-card">
+      <button class="btn-close-modal" id="btn-close-auth"><i data-lucide="x"></i></button>
+      
+      <div id="auth-form-container">
+        <h3 id="auth-title">Iniciar Sesión</h3>
+        <p class="auth-subtitle" id="auth-subtitle">Ingresa a tu cuenta para continuar</p>
+
+        <form id="auth-form">
+          <div class="form-group">
+            <label>Correo Electrónico</label>
+            <input type="email" id="auth-email" placeholder="correo@ejemplo.com" required>
+          </div>
+          <div class="form-group">
+            <label>Contraseña</label>
+            <input type="password" id="auth-password" placeholder="••••••••" required>
+          </div>
+
+          <button type="submit" class="btn-primary" id="btn-auth-submit">Ingresar</button>
+        </form>
+
+        <div class="auth-switch">
+          <span id="auth-switch-text">¿No tienes cuenta?</span>
+          <button type="button" id="btn-toggle-mode">Registrarme</button>
+        </div>
+      </div>
+
+      <div id="user-profile-container" class="hidden">
+        <h3>Tu Perfil</h3>
+        <p class="user-email-display" id="user-email-display"></p>
+        <button class="btn-secondary" id="btn-logout">Cerrar Sesión</button>
+      </div>
+    </div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  
-  <!-- 6. Tu JavaScript principal -->
-  <script src="main.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
